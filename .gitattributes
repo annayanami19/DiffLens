@@ -1,0 +1,20 @@
+# Normalisasi line ending otomatis
+* text=auto
+
+# Script Windows WAJIB CRLF agar cmd.exe tidak salah parse
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Script shell & Python pakai LF
+*.sh  text eol=lf
+*.py  text eol=lf
+
+# File biner (jangan diubah)
+*.png binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.exe binary
+*.dll binary

@@ -1,0 +1,46 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ===== Virtual environment =====
+.venv/
+venv/
+env/
+ENV/
+
+# ===== Tooling / IDE =====
+.zcode/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===== Packaging / build icon =====
+# hasil generate ikon tidak perlu di-commit? (tetap di-commit bila diinginkan)
+# assets/app_icon.ico
+# assets/app_icon.png
+
+# ===== OS =====
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ===== Log & temp =====
+*.log
+*.tmp
+debug_run.log
+
+# ===== Rahasia (jangan pernah masuk Git) =====
+.env
+.env.*
+*.pem
+*.key
+credentials*
+*serviceAccount*.json
