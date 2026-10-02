@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Tombol **"Kosongkan Semua Gambar"** (panel kiri, menu Berkas, toolbar, dan
+  pintasan `Ctrl+Shift+C`) untuk mengosongkan kedua gambar sekaligus dan
+  mereset tampilan serta analisis.
 - Rencana: paket instalasi mandiri (PyInstaller) untuk Windows.
 
 ## [1.0.0] - 2026-10-02

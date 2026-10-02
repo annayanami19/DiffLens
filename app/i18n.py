@@ -83,6 +83,15 @@ _STRINGS: dict[str, dict[str, str]] = {
     "btn_open_a": {"id": "Pilih Gambar A...", "en": "Choose Image A..."},
     "btn_open_b": {"id": "Pilih Gambar B...", "en": "Choose Image B..."},
     "btn_swap": {"id": "Tukar A \u2194 B", "en": "Swap A \u2194 B"},
+    "btn_clear": {"id": "Kosongkan Semua Gambar", "en": "Clear All Images"},
+    "menu_clear": {"id": "Kosongkan Semua Gambar\tCtrl+Shift+C", "en": "Clear All Images\tCtrl+Shift+C"},
+    "tb_clear": {"id": "Kosongkan kedua gambar", "en": "Clear both images"},
+    "confirm_clear_title": {"id": "Konfirmasi", "en": "Confirm"},
+    "confirm_clear_text": {
+        "id": "Kosongkan kedua gambar? Tampilan dan analisis akan direset.",
+        "en": "Clear both images? The view and analysis will be reset.",
+    },
+    "status_cleared": {"id": "Gambar dikosongkan.", "en": "Images cleared."},
     "lbl_drop_hint": {
         "id": "Tarik & lepas gambar ke sini.\nLepas 1 file = isi slot A, 2 file = A dan B.",
         "en": "Drag & drop images here.\nDrop 1 file = fills slot A, 2 files = A and B.",
@@ -170,6 +179,7 @@ _STRINGS: dict[str, dict[str, str]] = {
             "Ctrl+O        Buka Gambar A\n"
             "Ctrl+Shift+O  Buka Gambar B\n"
             "Ctrl+T        Tukar A \u2194 B\n"
+            "Ctrl+Shift+C  Kosongkan semua gambar\n"
             "Ctrl+1        Ukuran asli 1:1\n"
             "Ctrl+0        Sesuaikan jendela\n"
             "Ctrl++ / -    Zoom in / out\n"
@@ -185,6 +195,7 @@ _STRINGS: dict[str, dict[str, str]] = {
             "Ctrl+O        Open Image A\n"
             "Ctrl+Shift+O  Open Image B\n"
             "Ctrl+T        Swap A \u2194 B\n"
+            "Ctrl+Shift+C  Clear all images\n"
             "Ctrl+1        Actual size 1:1\n"
             "Ctrl+0        Fit to window\n"
             "Ctrl++ / -    Zoom in / out\n"

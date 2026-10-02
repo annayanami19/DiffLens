@@ -345,6 +345,14 @@ class MainWindow(QMainWindow):
         self.btn_swap = QPushButton("", left)
         self.btn_swap.clicked.connect(self.swap_images)
 
+        # baris tombol: tukar + kosongkan
+        row_actions = QHBoxLayout()
+        row_actions.setSpacing(6)
+        self.btn_clear = QPushButton("", left)
+        self.btn_clear.clicked.connect(self.clear_images)
+        row_actions.addWidget(self.btn_swap, 1)
+        row_actions.addWidget(self.btn_clear, 1)
+
         self.lbl_drop = QLabel("", left)
         self.lbl_drop.setWordWrap(True)
         self.lbl_drop.setObjectName("metricName")
@@ -384,7 +392,7 @@ class MainWindow(QMainWindow):
 
         left_layout.addWidget(self.group_a)
         left_layout.addWidget(self.group_b)
-        left_layout.addWidget(self.btn_swap)
+        left_layout.addLayout(row_actions)
         left_layout.addWidget(self.group_canvas)
         left_layout.addWidget(self.lbl_drop)
         left_layout.addStretch(1)
@@ -533,6 +541,10 @@ class MainWindow(QMainWindow):
         self.act_swap.setShortcut(QKeySequence("Ctrl+T"))
         self.act_swap.triggered.connect(self.swap_images)
 
+        self.act_clear = QAction(self)
+        self.act_clear.setShortcut(QKeySequence("Ctrl+Shift+C"))
+        self.act_clear.triggered.connect(self.clear_images)
+
         self.act_export_heat = QAction(self)
         self.act_export_heat.triggered.connect(self.export_heatmap)
         self.act_export_slider = QAction(self)
@@ -549,6 +561,7 @@ class MainWindow(QMainWindow):
         self.menu_file.addAction(self.act_open_a)
         self.menu_file.addAction(self.act_open_b)
         self.menu_file.addAction(self.act_swap)
+        self.menu_file.addAction(self.act_clear)
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.act_export_heat)
         self.menu_file.addAction(self.act_export_slider)
@@ -655,6 +668,7 @@ class MainWindow(QMainWindow):
         tb.addAction(self.act_open_a)
         tb.addAction(self.act_open_b)
         tb.addAction(self.act_swap)
+        tb.addAction(self.act_clear)
         tb.addSeparator()
         for mode in MODES:
             tb.addAction(self.mode_actions[mode])
@@ -688,6 +702,7 @@ class MainWindow(QMainWindow):
         self.act_open_a.setText(tr("menu_open_a"))
         self.act_open_b.setText(tr("menu_open_b"))
         self.act_swap.setText(tr("menu_swap"))
+        self.act_clear.setText(tr("menu_clear"))
         self.act_export_heat.setText(tr("menu_export_heatmap"))
         self.act_export_slider.setText(tr("menu_export_slider"))
         self.act_export_side.setText(tr("menu_export_side"))
@@ -732,6 +747,8 @@ class MainWindow(QMainWindow):
         self.btn_open_a.setText(tr("btn_open_a"))
         self.btn_open_b.setText(tr("btn_open_b"))
         self.btn_swap.setText(tr("btn_swap"))
+        self.btn_clear.setText(tr("btn_clear"))
+        self.btn_clear.setToolTip(tr("tb_clear"))
         self.lbl_drop.setText(tr("lbl_drop_hint"))
         self.lbl_fit.setText(tr("lbl_fit_mode"))
         self.chk_checker.setText(tr("chk_checkerboard"))
@@ -823,6 +840,41 @@ class MainWindow(QMainWindow):
     def swap_images(self) -> None:
         self.image_a, self.image_b = self.image_b, self.image_a
         self._after_images_changed()
+
+    def clear_images(self) -> None:
+        """Kosongkan kedua gambar dan reset seluruh tampilan/analisis."""
+        if self.image_a is None and self.image_b is None:
+            return
+        answer = QMessageBox.question(
+            self,
+            tr("confirm_clear_title"),
+            tr("confirm_clear_text"),
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        )
+        if answer != QMessageBox.StandardButton.Yes:
+            return
+        self._do_clear()
+
+    def _do_clear(self) -> None:
+        # batalkan pekerjaan latar yang mungkin masih berjalan
+        self._fit_timer.stop()
+        self._threshold_timer.stop()
+
+        self.image_a = None
+        self.image_b = None
+        self.matched_a = None
+        self.matched_b = None
+        self.last_result = None
+
+        self._refresh_image_info()
+        self._push_to_views()
+        self._clear_metrics()
+        self._update_enabled_states()
+
+        # reset posisi slider ke tengah
+        self.slider_view.set_position(0.5)
+        self.lbl_status.setText(tr("status_cleared"))
 
     def _after_images_changed(self) -> None:
         self._refresh_image_info()
@@ -930,6 +982,7 @@ class MainWindow(QMainWindow):
         self.diff_view.set_magnitude(None)
         self.last_result = None
         self.lbl_no_data.setVisible(True)
+        self.lbl_status.setText(tr("status_ready"))
 
     # ================================================================ mode
     def set_mode(self, mode: str) -> None:
@@ -984,6 +1037,10 @@ class MainWindow(QMainWindow):
         has_any = self.matched_a is not None or self.matched_b is not None
         for act in (self.act_fit, self.act_actual, self.act_zoom_in, self.act_zoom_out):
             act.setEnabled(has_any)
+        # tombol/menu kosongkan aktif bila ada minimal satu gambar
+        has_image = self.image_a is not None or self.image_b is not None
+        self.act_clear.setEnabled(has_image)
+        self.btn_clear.setEnabled(has_image)
 
     # ================================================================ handlers
     def _on_slider_moved(self, value: float) -> None:

@@ -63,6 +63,7 @@ Jalankan berikutnya akan langsung membuka aplikasi tanpa memasang ulang.
 ### Input / Output
 - Buka gambar via dialog, **drag & drop** (lepas 1 file = slot A; 2 file = A & B)
 - Tukar A ↔ B (`Ctrl+T`)
+- **Kosongkan semua gambar** (`Ctrl+Shift+C`) untuk mulai membandingkan pasangan baru
 - Ekspor: **heatmap diff PNG**, **komposit slider PNG**, **komposit berdampingan PNG**, **laporan `.txt`**
 - Pengaturan terakhir (folder, bahasa, mode, ukuran jendela) disimpan otomatis
 
@@ -80,6 +81,7 @@ Jalankan berikutnya akan langsung membuka aplikasi tanpa memasang ulang.
 | `Ctrl+O` | Buka Gambar A (original) |
 | `Ctrl+Shift+O` | Buka Gambar B (hasil edit) |
 | `Ctrl+T` | Tukar A ↔ B |
+| `Ctrl+Shift+C` | Kosongkan semua gambar |
 | `1` .. `5` | Ganti mode perbandingan |
 | `Ctrl+1` | Ukuran asli 1:1 |
 | `Ctrl+0` | Sesuaikan jendela |
